@@ -6,7 +6,17 @@ var buyTerr = true;
 var autobuy = 0;
 var fasterUpgrades = [];
 
-var optimalBats = [102, 370, 393, 417, 440, 463, 485, 507, 528, 549, 570, 591];
+var optimalBats = [
+  102, 370, 393, 417, 440,
+  463, 485, 507, 528, 549,
+  570, 591, 611, 632, 652,
+  671, 691, 710, 729, 748,
+  766, 785, 803, 821, 839,
+  857, 874, 891, 909, 926,
+  943, 959, 976, 993, 1009,
+  1025, 1041, 1057, 1073, 1089,
+  1104, 1120, 1135, 1150, 1166
+];
 var ascensionCount = units.ascension.count().c[0];
 
 var autoSpeed = 10000;
@@ -146,6 +156,8 @@ var autoEnergyF = function() {
   if (units.moth.count().toNumber() >= mothN4) {
     if (game.upgrade('nexus5').count().toNumber() == 0) {
       buyList = buyList.concat(game.upgrade('nexus5'));
+      ascensionCount = units.ascension.count().c[0];
+      batCount = optimalBats[ascensionCount];
     } else if (units.moth.count().toNumber() < mothEnd) {
       buyList = buyList.concat(units.moth);
     } else if (units.bat.count().toNumber() < batCount) {
