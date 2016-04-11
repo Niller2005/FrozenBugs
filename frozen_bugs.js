@@ -6,10 +6,13 @@ var buyTerr = true;
 var autobuy = 0;
 var fasterUpgrades = [];
 
+var optimalBats = [102, 370, 393, 417, 440, 463, 485, 507, 528, 549, 570, 591];
+var ascensionCount = units.ascension.count().c[0];
+
 var autoSpeed = 10000;
-var mothN4 = 2013;
-var mothEnd = 5546;
-var batCount = 393;
+var mothN4 = 572;
+var mothEnd = 4000;
+var batCount = optimalBats[ascensionCount];
 
 game.unitlist().forEach(function(u) {
   var upgrade = u.upgrades.byName[u.name + 'prod'];
@@ -105,28 +108,28 @@ var buyFunc = function() {
       u.buyMax(1);
     }
   });
-  
+
   var currTerr = currentTerritory();
-  
+
   empowerList.forEach(function(u) {
     if (u.isBuyable() && currTerr.eachCost()[0].val.greaterThan(u.unit.eachCost()[0].val) && u.unit.totalProduction().territory.times(1000).lessThan(units.territory.velocity())) {
       console.log('Bought Empower', u.unit.unittype.slug);
       u.buy(1);
     }
   });
-  
+
   currTerr = currentTerritory();
-  
+
   if (buyTerr && currTerr.isBuyable()) {
     setTimeout(function() {
 	  console.log('Bought', currTerr.maxCostMet(1).times(currTerr.twinMult()).toExponential(2), currTerr.unittype.slug);
 	  currTerr.buyMax(1);
 	}, 1000);
   }
-  
+
   var currMeat = currentMeat(units.drone);
   var meatList = unitRatio(currMeat) > 0.01 ? [currMeat.next, currMeat] : [currMeat];
-  
+
   meatList.forEach(function(m) {
     if (buyMeat && m.isBuyable()) {
       setTimeout(function() {
@@ -148,11 +151,11 @@ var autoEnergyF = function() {
     } else if (units.bat.count().toNumber() < batCount) {
       buyList = buyList.concat(units.bat);
     } else {
-      return 0;
+      buyList = buyList.concat(game.upgrade("swarmwarp"));
     }
   } else {
     buyList = buyList.concat(units.moth);
   }
-  
+
   autoEnergy = setTimeout(autoEnergyF, autoSpeed);
 };
