@@ -116,8 +116,8 @@ var buyFunc = function() {
   });
   energyBuyList.forEach(function(o){
     var boughtNum = o.u.maxCostMet(1).toNumber();
-    if(boughtNum >= o.m){
-      boughtNum = o.m;
+    if(boughtNum > o.n){
+      boughtNum = o.n;
     }
     if (o.u.isBuyable()) {
       console.log('Bought', boughtNum, o.u.name);
