@@ -161,10 +161,12 @@ var autoEnergyF = function() {
       batCount = optimalBats[ascensionCount];
     } else if (units.moth.count().toNumber() < mothEnd) {
       if(mothEnd-units.moth.count().toNumber() > 0){
+        console.log('Bought', mothEnd-units.moth.count().toNumber().toExponential(2), units.moth.name);
         units.moth.buy(mothEnd-units.moth.count().toNumber());
       }
     } else if (units.bat.count().toNumber() < batCount) {
       if (batCount-units.bat.count().toNumber() > 0) {
+        console.log('Bought', batCount-units.bat.count().toNumber(), units.bat.name);
         units.bat.buy(batCount-units.bat.count().toNumber());
       }
     } else {
