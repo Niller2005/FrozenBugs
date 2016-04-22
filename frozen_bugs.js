@@ -105,6 +105,7 @@ function unitCostAsPercentOfVelocity (unit, cost) {
 // var buyList = [game.upgrade('expansion')].concat(units.nexus.upgrades.list);
 var buyListProto = _.flatten([units.larva.upgrades.list, units.nexus.upgrades.list, units.meat.upgrades.list, units.territory._parents().map(function(p){return game.upgrade(p.name + 'twin')})]);
 var buyList = buyListProto.slice(0);
+var energyBuyList = [];
 
 var buyFunc = function() {
   buyList.forEach(function(u) {
@@ -113,6 +114,18 @@ var buyFunc = function() {
       u.buyMax(1);
     }
   });
+  energyBuyList.forEach(function(o){
+    var boughtNum = o.u.maxCostMet(1).toNumber();
+    if(boughtNum >= o.m){
+      boughtNum = o.m;
+    }
+    if (o.u.isBuyable()) {
+      console.log('Bought', boughtNum, o.u.name);
+      o.u.buy(o.n);
+    }
+  }
+
+  )
   fasterUpgrades.forEach(function(u) {
     if (u.isBuyable() && u.totalCost()[0].val.times(2).lessThan(u.totalCost()[0].unit.count())) {
       console.log('Bought Faster', u.unit.unittype.slug, u.maxCostMet(1).toNumber(), 'times');
@@ -154,21 +167,16 @@ var buyFunc = function() {
 var autoEnergy = 0;
 var autoEnergyF = function() {
   buyList = buyListProto.slice(0);
+  energyBuyList = [];
   if (units.moth.count().toNumber() >= mothN4) {
     if (game.upgrade('nexus5').count().toNumber() == 0) {
       buyList = buyList.concat(game.upgrade('nexus5'));
       ascensionCount = units.ascension.count().c[0];
       batCount = optimalBats[ascensionCount];
     } else if (units.moth.count().toNumber() < mothEnd) {
-      if(mothEnd-units.moth.count().toNumber() > 0){
-        console.log('Bought', mothEnd-units.moth.count().toNumber().toExponential(2), units.moth.name);
-        units.moth.buy(mothEnd-units.moth.count().toNumber());
-      }
+      energyBuyList = energyBuyList.concat({"u": units.moth, "n": mothEnd-units.moth.count().toNumber(), "m": mothEnd});
     } else if (units.bat.count().toNumber() < batCount) {
-      if (batCount-units.bat.count().toNumber() > 0) {
-        console.log('Bought', batCount-units.bat.count().toNumber(), units.bat.name);
-        units.bat.buy(batCount-units.bat.count().toNumber());
-      }
+      energyBuyList = energyBuyList.concat({"u": units.bat, "n": batCount-units.bat.count().toNumber(), "m": batCount});
     } else {
       buyList = buyList.concat(game.upgrade("swarmwarp"));
     }
