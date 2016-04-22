@@ -6,7 +6,6 @@ var buyTerr = true;
 var autobuy = 0;
 var fasterUpgrades = [];
 
-//44
 var optimalBats = [
    102,  370,  394,  417,  440,  463,  485,  507,  528,  549, //000-009
    570,  591,  611,  632,  652,  671,  691,  710,  729,  748, //010-019
@@ -161,9 +160,13 @@ var autoEnergyF = function() {
       ascensionCount = units.ascension.count().c[0];
       batCount = optimalBats[ascensionCount];
     } else if (units.moth.count().toNumber() < mothEnd) {
-      buyList = buyList.concat(units.moth);
+      if(mothEnd-units.moth.count().toNumber() > 0){
+        units.moth.buy(mothEnd-units.moth.count().toNumber());
+      }
     } else if (units.bat.count().toNumber() < batCount) {
-      buyList = buyList.concat(units.bat);
+      if (batCount-units.bat.count().toNumber() > 0) {
+        units.bat.buy(batCount-units.bat.count().toNumber());
+      }
     } else {
       buyList = buyList.concat(game.upgrade("swarmwarp"));
     }
