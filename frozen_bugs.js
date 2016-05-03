@@ -10,7 +10,9 @@ var fasterUpgrades = [];
 var autoSpeed = 10000;
 var mothN4 = 572;
 var mothEnd = 4000;
-var batCount = 102;
+var ascensionCount = units.ascension.count().toNumber();
+var batCount = optimalBats();
+
 
 game.unitlist().forEach(function(u) {
     var upgrade = u.upgrades.byName[u.name + 'prod'];
@@ -116,6 +118,7 @@ var energyBuyList = [];
 
 var buyFunc = function() {
     if (buyEnergy) {
+        batCount = optimalBats();
         autoEnergy();
     }
 
@@ -181,7 +184,6 @@ var autoEnergy = function() {
     if (units.moth.count().toNumber() >= mothN4) {
         if (game.upgrade('nexus5').count().toNumber() == 0) {
             buyList = buyList.concat(game.upgrade('nexus5'));
-            batCount = optimalBats();
         } else if (units.moth.count().toNumber() < mothEnd) {
             energyBuyList = energyBuyList.concat({
                 "u": units.moth,
