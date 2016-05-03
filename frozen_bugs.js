@@ -46,6 +46,9 @@ function unitRatio(u) {
 }
 
 function currentMeat(unit) {
+    if (!unit) {
+        return currentMeat(units.drone);
+    }
     if (unitRatio(unit) > 2) {
         return currentMeat(unit.next);
     } else {
@@ -86,6 +89,11 @@ function buyMeatTwin(unit, amount) {
     }
 }
 
+function manualTierUp() {
+    if (currentMeat().next) {
+        buyMeatTwin(currentMeat().next, 0);
+    }
+}
 
 function currentTerritory() {
     var current = units.swarmling;
@@ -165,7 +173,7 @@ var buyFunc = function() {
         }, 1000);
     }
 
-    var currMeat = currentMeat(units.drone);
+    var currMeat = currentMeat();
     var meatList = unitRatio(currMeat) > 0.01 ? [currMeat.next, currMeat] : [currMeat];
 
     meatList.forEach(function(m) {
