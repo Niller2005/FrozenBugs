@@ -1,4 +1,4 @@
-var scope = angular.element('body').scope();
+var scope = angular.element(document).find('body').scope();
 var game = scope.game;
 var units = game.units();
 var buyMeat = true;
