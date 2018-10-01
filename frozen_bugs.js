@@ -210,4 +210,5 @@ var autoEnergy = function() {
     } else {
         buyList = buyList.concat(units.moth);
     }
+    buyList = buyList.concat(units.energy)
 };
