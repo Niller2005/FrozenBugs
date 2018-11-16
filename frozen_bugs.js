@@ -63,7 +63,9 @@ function buyMeatTwin(unit, amount) {
         var parentCost = twin.totalCost()[0].val;
         var parent = twin.totalCost()[0].unit;
         var unitCost = parent.costByName[unit.name].val.dividedBy(parent.twinMult());
-        var totalUnitCost = unitCost.times(parentCost);
+		var totalUnitCost = unitCost.times(parentCost);
+
+		console.log('Next meat unit progress:', ((realAmount.toNumber() / totalUnitCost.times(1.5).toNumber()) * 100).toFixed(2) + '%', `(${realAmount.toNumber()} / ${totalUnitCost.times(1.5).toNumber()})`);
 
         if (totalUnitCost.times(1.5).lessThan(realAmount)) {
             if (!twin.isBuyable()) {
