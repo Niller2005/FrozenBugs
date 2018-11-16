@@ -52,6 +52,7 @@ function currentMeat(unit) {
     if (unitRatio(unit) > 2) {
         return currentMeat(unit.next);
     } else {
+		console.log('Next meat unit progress:', `${((unitRatio(unit) / 2) * 100).toFixed(2)}%`);
         return unit;
     }
 }
@@ -65,7 +66,7 @@ function buyMeatTwin(unit, amount) {
         var unitCost = parent.costByName[unit.name].val.dividedBy(parent.twinMult());
 		var totalUnitCost = unitCost.times(parentCost);
 
-		console.log('Next meat unit progress:', ((realAmount.toNumber() / totalUnitCost.times(1.5).toNumber()) * 100).toFixed(2) + '%', `(${realAmount.toNumber()} / ${totalUnitCost.times(1.5).toNumber()})`);
+		// console.log('Next twin upgrade:', `${realAmount.dividedBy(totalUnitCost.times(1.5)).times(100).toFixed(2)}%`, `(${realAmount.toExponential(2)} / ${totalUnitCost.times(1.5).toExponential(2)})`);
 
         if (totalUnitCost.times(1.5).lessThan(realAmount)) {
             if (!twin.isBuyable()) {
